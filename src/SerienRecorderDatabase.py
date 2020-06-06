@@ -438,7 +438,7 @@ class SRDatabase:
 			SRLogger.writeLog("Es wurden %d geänderte Seriennamen bzw. Serieninformationen gefunden" % len(changedMarkers), True)
 
 			cur.execute("BEGIN TRANSACTION")
-			for key, val in changedMarkers.items():
+			for key, val in list(changedMarkers.items()):
 				cur.execute("UPDATE SerienMarker SET Serie = ?, info = ?, fsID = ? WHERE Url = ?", (val['new_name'], val['new_info'], val['new_fsID'], key))
 				SRLogger.writeLog("SerienMarker Tabelle aktualisiert [%s] (%s) => [%s] (%s) / [%s]: %d" % (val['old_name'], val['old_fsID'], val['new_name'], val['new_fsID'], val['new_info'], cur.rowcount), True)
 				if not hasFSIDColumn:

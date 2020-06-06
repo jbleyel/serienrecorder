@@ -311,7 +311,7 @@ class processEMailDataThread(threading.Thread):
 	def process(self, data):
 		(markerChannels, seriesID, fsID, seriesTitle, season, fromEpisode, numberOfRecords, currentTime, futureTime, excludedWeekdays, markerType, limitedChannels) = data
 		transmissions = []
-		for key in self.emailData.keys():
+		for key in list(self.emailData.keys()):
 			if self.emailData[key][0][0] == seriesTitle:
 				fsID = key
 				break
@@ -653,7 +653,7 @@ class serienRecCheckForRecording:
 			configfile.save()
 			fullCheck = "- Zeit abgelaufen - voller Suchlauf'"
 		else:
-			self.markers = self.database.getMarkers(config.plugins.serienRec.BoxID.value, config.plugins.serienRec.NoOfRecords.value, self.emailData.keys())
+			self.markers = self.database.getMarkers(config.plugins.serienRec.BoxID.value, config.plugins.serienRec.NoOfRecords.value, list(self.emailData.keys()))
 			fullCheck = "- nur Serien der TV-Planer E-Mail'"
 		self.count_url = 0
 		self.countSerien = 0
@@ -767,7 +767,7 @@ class serienRecCheckForRecording:
 				worker.setDaemon(True)
 				worker.start()
 
-			for serienTitle,SerieUrl,SerieStaffel,SerieSender,AbEpisode,AnzahlAufnahmen,SerieEnabled,excludedWeekdays,skipSeriesServer,markerType,fsID in self.database.getMarkers(config.plugins.serienRec.BoxID.value, config.plugins.serienRec.NoOfRecords.value, self.emailData.keys()):
+			for serienTitle,SerieUrl,SerieStaffel,SerieSender,AbEpisode,AnzahlAufnahmen,SerieEnabled,excludedWeekdays,skipSeriesServer,markerType,fsID in self.database.getMarkers(config.plugins.serienRec.BoxID.value, config.plugins.serienRec.NoOfRecords.value, list(self.emailData.keys())):
 				print serienTitle
 				if SerieEnabled:
 					# Process only if series is enabled

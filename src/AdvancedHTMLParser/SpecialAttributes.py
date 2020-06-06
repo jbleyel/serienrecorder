@@ -200,7 +200,7 @@ class SpecialAttributesDict(dict):
         if key == 'class':
             return self.tag.className
 
-        if key in ('style', 'class') or key in self.keys():
+        if key in ('style', 'class') or key in list(self.keys()):
             return self[key]
         return default
 
@@ -375,7 +375,7 @@ class AttributeNodeMap(object):
 
     def __getitem__(self, name):
         if isinstance(name, int):
-            return self.getNamedItem(self._attributesDict.keys()[name])
+            return self.getNamedItem(list(self._attributesDict.keys())[name])
         
         return self.getNamedItem(name)
 
@@ -396,7 +396,7 @@ class AttributeNodeMap(object):
 
 
     def __str__(self):
-        return '[ %s ]' %(' '.join([tostr(self.getNamedItem(name)) for name in self._attributesDict.keys()]))
+        return '[ %s ]' %(' '.join([tostr(self.getNamedItem(name)) for name in list(self._attributesDict.keys())]))
 
 
 
@@ -744,7 +744,7 @@ class StyleAttribute(object):
 
         styleDict = self._styleDict
         if styleDict:
-            return '; '.join([name + ': ' + value for name, value in styleDict.items()])
+            return '; '.join([name + ': ' + value for name, value in list(styleDict.items())])
         return ''
 
 

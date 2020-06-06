@@ -171,7 +171,7 @@ COMMON_JAVASCRIPT_ATTRIBUTES = { 'onkeydown', 'onkeyup', 'onkeypress', 'onfocus'
 
 # All javascript attributes known by AdvancedHTMLParser
 ALL_JAVASCRIPT_EVENT_ATTRIBUTES = COMMON_JAVASCRIPT_ATTRIBUTES.union( 
-    set([value for values in TAG_NAMES_TO_ADDITIONAL_ATTRIBUTES.values() for value in values if value.startswith('on')]) 
+    set([value for values in list(TAG_NAMES_TO_ADDITIONAL_ATTRIBUTES.values()) for value in values if value.startswith('on')]) 
 )
 
 # object-access that link directly to an attribute on the tag
@@ -231,7 +231,7 @@ TAG_ITEM_BINARY_ATTRIBUTES = { 'hidden', 'checked', 'selected',
 TAG_ITEM_BINARY_ATTRIBUTES_STRING_ATTR = { 'spellcheck', }
 
 # The opposite of TAG_ITEM_CHANGE_NAME_FROM_ITEM, for going from the attribute name to the object-access name
-TAG_ITEM_CHANGE_NAME_FROM_ATTR = { val : key for key, val in TAG_ITEM_CHANGE_NAME_FROM_ITEM.items() }
+TAG_ITEM_CHANGE_NAME_FROM_ATTR = { val : key for key, val in list(TAG_ITEM_CHANGE_NAME_FROM_ITEM.items()) }
 
 
 POSSIBLE_VALUES_CROSS_ORIGIN = ('use-credentials', 'anonymous')

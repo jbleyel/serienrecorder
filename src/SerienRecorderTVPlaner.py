@@ -327,7 +327,7 @@ def getEmailData():
 	if config.plugins.serienRec.tvplaner_create_marker.value:
 		print "[SerienRecorder] Create markers..."
 		database = SRDatabase(SerienRecorder.serienRecDataBaseFilePath)
-		for fsID in transmissiondict.keys():
+		for fsID in list(transmissiondict.keys()):
 			print "[SerienRecorder] Check whether or not a marker exists for fsid: [%s]" % str(fsID)
 			# marker isn't in database, create new marker
 			# url stored in marker isn't the final one, it is corrected later

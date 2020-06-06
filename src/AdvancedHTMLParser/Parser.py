@@ -96,7 +96,7 @@ class AdvancedHTMLParser(HTMLParser):
 
                 @param state <dict> - The state
         '''
-        for key, value in state.items():
+        for key, value in list(state.items()):
             setattr(self, key, value)
 
         # Python2 compat
@@ -705,7 +705,7 @@ class AdvancedHTMLParser(HTMLParser):
         matchFunctions = []
 
         # Iterate over all the filter portions, and build a filter.
-        for key, value in kwargs.items():
+        for key, value in list(kwargs.items()):
             key = key.lower()
 
             endsIContains = key.endswith('__icontains')
@@ -1082,7 +1082,7 @@ class IndexedAdvancedHTMLParser(AdvancedHTMLParser):
         for indexFunction in self.indexFunctions:
             indexFunction(tag)
 
-        for attributeIndexFunction in self.otherAttributeIndexFunctions.values():
+        for attributeIndexFunction in list(self.otherAttributeIndexFunctions.values()):
             attributeIndexFunction(self, tag)
 
     def _indexTagRecursive(self, tag):

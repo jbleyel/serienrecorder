@@ -545,14 +545,14 @@ class STBHelpers:
 						lTuner.append(service_ref)
 
 		if int(check_start) in lTimerStart:
-			l = lTimerStart.items()
+			l = list(lTimerStart.items())
 			l.sort(key=lambda x: x[0])
 			for each in l:
 				if (each[0] <= lTimerStart[int(check_start)]) and (each[1] > lTimerStart[int(check_start)]):
 					lTimerStart.update({int(check_start): each[1]})
 
 			if int(check_end) in lTimerEnd:
-				l = lTimerEnd.items()
+				l = list(lTimerEnd.items())
 				l.sort(key=lambda x: x[0], reverse=True)
 				for each in l:
 					if (each[0] >= lTimerEnd[int(check_end)]) and (each[1] < lTimerEnd[int(check_end)]):

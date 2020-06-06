@@ -1400,7 +1400,7 @@ class AdvancedTag(object):
         '''
         attributeStrings = []
         # Get all attributes as a tuple (name<str>, value<str>)
-        for name, val in self._attributes.items():
+        for name, val in list(self._attributes.items()):
             # Get all attributes
             if val:
                 val = tostr(val)
@@ -1516,7 +1516,7 @@ class AdvancedTag(object):
 
                 This is suitable for passing back into AdvancedTag when creating a new tag.
         '''
-        return [ (tostr(name)[:], tostr(value)[:]) for name, value in self._attributes.items() ]
+        return [ (tostr(name)[:], tostr(value)[:]) for name, value in list(self._attributes.items()) ]
 
 
     def getAttributesDict(self):
@@ -1529,7 +1529,7 @@ class AdvancedTag(object):
               @return <dict ( str(name), str(value) )> - A dict of attrName to attrValue , all as strings and copies.
         '''
             
-        return { tostr(name)[:] : tostr(value)[:] for name, value in self._attributes.items() }
+        return { tostr(name)[:] : tostr(value)[:] for name, value in list(self._attributes.items()) }
 
 
     def setAttribute(self, attrName, attrValue):
@@ -1722,7 +1722,7 @@ class AdvancedTag(object):
             @return - String of current value of "style" after change is made.
         '''
         setStyleMethod = self.setStyle
-        for newName, newValue in styleUpdatesDict.items():
+        for newName, newValue in list(styleUpdatesDict.items()):
             setStyleMethod(newName, newValue)
 
         return self.style
