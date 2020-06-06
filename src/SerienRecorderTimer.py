@@ -1083,7 +1083,7 @@ class serienRecBoxTimer:
 					"result": False,
 					"message": "In Konflikt stehende Timer vorhanden! %s" % " / ".join(errors)
 				}
-		except Exception, e:
+		except Exception as e:
 			print("[%s] <%s>" % (__name__, e))
 			return {
 				"result": False,

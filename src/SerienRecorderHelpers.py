@@ -142,7 +142,7 @@ def createBackup():
 				os.chmod(os.path.join(BackupPath, filename), 0o777)
 			if fileExists(SERIENRECORDER_TVPLANER_HTML_FILENAME % config.plugins.serienRec.LogFilePath.value):
 				shutil.copy(SERIENRECORDER_TVPLANER_HTML_FILENAME % config.plugins.serienRec.LogFilePath.value, BackupPath)
-		except Exception, e:
+		except Exception as e:
 			SRLogger.writeLog("Backup konnte nicht erstellt werden: " + str(e), True)
 
 def getDirname(database, serien_name, serien_fsid, staffel):
