@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Search Screen
+from __future__ import print_function
 import threading
 
 from Screens.Screen import Screen
@@ -132,7 +133,7 @@ class serienRecSearchResultScreen(serienRecBaseScreen, Screen, HelpableScreen):
 			self.searchSerie()
 
 	def searchSerie(self, start = 0):
-		print "[SerienRecorder] suche ' %s '" % self.serien_name
+		print("[SerienRecorder] suche ' %s '" % self.serien_name)
 		self['title'].setText("Suche nach ' %s '" % self.serien_name)
 		self['title'].instance.setForegroundColor(parseColor("foreground"))
 		if start == 0:
@@ -201,7 +202,7 @@ class serienRecSearchResultScreen(serienRecBaseScreen, Screen, HelpableScreen):
 		serien_info = self['menu_list'].getCurrent()[0][1]
 		serien_wlid = self['menu_list'].getCurrent()[0][2]
 		serien_fsid = self['menu_list'].getCurrent()[0][3]
-		print serien_name, serien_info, serien_wlid, serien_fsid
+		print(serien_name, serien_info, serien_wlid, serien_fsid)
 
 		if serien_wlid == "":
 			return
@@ -229,7 +230,7 @@ class serienRecSearchResultScreen(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def wSearch(self, serien_name):
 		if serien_name:
-			print serien_name
+			print(serien_name)
 			self.chooseMenuList.setList([])
 			self['title'].setText("")
 			self['title'].instance.setForegroundColor(parseColor("foreground"))

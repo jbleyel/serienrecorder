@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder AutoCheck Screen
+from __future__ import print_function
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
 from Screens.MessageBox import MessageBox
@@ -21,7 +22,7 @@ class serienRecRunAutoCheckScreen(serienRecBaseScreen, Screen, HelpableScreen):
 		HelpableScreen.__init__(self)
 		self.session = session
 		self.withTVPlanner = withTVPlanner
-		print "[SerienRecorder] 0__init__ withTVPlanner:", withTVPlanner
+		print("[SerienRecorder] 0__init__ withTVPlanner:", withTVPlanner)
 		self.autoCheckRunning = False
 
 		self["actions"] = HelpableActionMap(self, "SerienRecorderActions", {
@@ -99,7 +100,7 @@ class serienRecRunAutoCheckScreen(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def startCheck(self):
 		# Log Reload Timer
-		print "[SerienRecorder] startCheck timer"
+		print("[SerienRecorder] startCheck timer")
 		SerienRecorder.autoCheckFinished = False
 		self.autoCheckRunning = False
 		if isDreamOS():
@@ -114,12 +115,12 @@ class serienRecRunAutoCheckScreen(serienRecBaseScreen, Screen, HelpableScreen):
 			SerienRecorder.serienRecCheckForRecording(self.session, True, self.withTVPlanner)
 
 	def readLog(self):
-		print "[SerienRecorder] readLog called"
+		print("[SerienRecorder] readLog called")
 		if SerienRecorder.autoCheckFinished:
 			if self.readLogTimer:
 				self.readLogTimer.stop()
 				self.readLogTimer = None
-			print "[SerienRecorder] update log reader stopped."
+			print("[SerienRecorder] update log reader stopped.")
 			self['title'].setText("Auto-Check fertig !")
 
 			from SerienRecorderLogWriter import SRLogger
@@ -135,7 +136,7 @@ class serienRecRunAutoCheckScreen(serienRecBaseScreen, Screen, HelpableScreen):
 					self['log'].moveToIndex(int(count - 1))
 			SerienRecorder.autoCheckRunning = False
 		else:
-			print "[SerienRecorder] waiting"
+			print("[SerienRecorder] waiting")
 			self.points += " ."
 			self['title'].setText("Suche nach neuen Timern läuft.%s" % self.points)
 			self.executeAutoCheck()

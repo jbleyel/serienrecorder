@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Github Update Screen
+from __future__ import print_function
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 
@@ -180,7 +181,7 @@ class checkGitHubUpdateScreen(Screen):
 		self.close()
 
 	def cmdData(self, data):
-		print data
+		print(data)
 		self['srlog'].setText(data)
 
 	def updateProgressBar(self):
@@ -211,12 +212,12 @@ class checkGitHubUpdateScreen(Screen):
 			self.progressTimerConnection = None
 
 	def downloadFinished(self, result):
-		print "[SerienRecorder] downloadFinished"
+		print("[SerienRecorder] downloadFinished")
 		self.downloadDone = True
 		self.progress = 0
 		self['status'].setText("")
 
-		print "[SerienRecorder] Filepath: " + self.filePath
+		print("[SerienRecorder] Filepath: " + self.filePath)
 		if fileExists(self.filePath):
 			self['status'].setText("Installation wurde gestartet, bitte warten...")
 
@@ -229,9 +230,9 @@ class checkGitHubUpdateScreen(Screen):
 				self.console.dataAvail.append(self.cmdData)
 				command = "opkg update && opkg install --force-overwrite --force-depends --force-downgrade %s" % str(self.filePath)
 
-			print "[SerienRecorder] Executing command: " + command
+			print("[SerienRecorder] Executing command: " + command)
 			retval = self.console.execute(command)
-			print "[SerienRecorder] Return: " + str(retval)
+			print("[SerienRecorder] Return: " + str(retval))
 		else:
 			self.downloadError()
 
@@ -241,12 +242,12 @@ class checkGitHubUpdateScreen(Screen):
 		self.close()
 
 	def finishedPluginUpdate(self, retval):
-		print "[SerienRecorder] finishPluginUpdate [retval = " + str(retval) + "]"
+		print("[SerienRecorder] finishPluginUpdate [retval = " + str(retval) + "]")
 		#self.console.kill()
 		#self.stopProgressTimer()
 		self['status'].setText("")
 		if fileExists(self.filePath):
-			print "[SerienRecorder] Removing file: " + self.filePath
+			print("[SerienRecorder] Removing file: " + self.filePath)
 			os.remove(self.filePath)
 
 		if retval == 0:

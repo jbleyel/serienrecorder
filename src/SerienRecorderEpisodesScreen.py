@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Episodes Screen
+from __future__ import print_function
 import re, time
 
 from Screens.Screen import Screen
@@ -397,9 +398,9 @@ class serienRecEpisodes(serienRecBaseScreen, Screen, HelpableScreen):
 		if not self.aToEpisode: # or self.aFromEpisode is None or self.aStaffel is None:
 			return
 		else:
-			print "[SerienRecorder] Staffel: %s" % self.aStaffel
-			print "[SerienRecorder] von Episode: %s" % self.aFromEpisode
-			print "[SerienRecorder] bis Episode: %s" % self.aToEpisode
+			print("[SerienRecorder] Staffel: %s" % self.aStaffel)
+			print("[SerienRecorder] von Episode: %s" % self.aFromEpisode)
+			print("[SerienRecorder] bis Episode: %s" % self.aToEpisode)
 			if self.database.addToTimerList(self.serien_name, self.serien_fsid, self.aFromEpisode, self.aToEpisode, self.aStaffel, "dump", int(time.time()), "", "", 0, 1):
 				self.chooseMenuList.setList(map(self.buildList_episodes, self.episodes_list_cache[self.page]))
 

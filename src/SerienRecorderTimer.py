@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Series Planner
+from __future__ import print_function
 import time, datetime, sys
 import NavigationInstance
 import SerienRecorder
@@ -165,21 +166,21 @@ class serienRecTimer:
 	def update(self, timer_list, eit, end_unixtime, new_episode, new_serien_title, new_serien_name, serien_fsid, serien_time, new_staffel, start_unixtime, stbRef, title, dirname, vpsSettings, markerType):
 		timerUpdated = False
 		timerFound = False
-		print "[SerienRecorder] Iterate timers to update timer: " + title
+		print("[SerienRecorder] Iterate timers to update timer: " + title)
 		for timer in timer_list:
 			if timer and timer.service_ref:
 				# skip all timer with false service ref
-				print "[SerienRecorder] Get timer for update: [%s] [%s] [%s]" % (timer.name, str(timer.service_ref).lower() + " / " + str(stbRef).lower(), str(timer.begin) + " / " + str(serien_time))
+				print("[SerienRecorder] Get timer for update: [%s] [%s] [%s]" % (timer.name, str(timer.service_ref).lower() + " / " + str(stbRef).lower(), str(timer.begin) + " / " + str(serien_time)))
 				if (str(timer.service_ref).lower() == str(stbRef).lower()) and (str(timer.begin) == str(serien_time)):
 					# Timer gefunden, weil auf dem richtigen Sender und Startzeit im Timer entspricht Startzeit in SR DB
-					print "[SerienRecorder] Timer found"
+					print("[SerienRecorder] Timer found")
 					timerFound = True
 					# Muss der Timer aktualisiert werden?
 
 					# Event ID
 					updateEIT = False
 					old_eit = timer.eit
-					print "[SerienRecorder] EIT: [%s]" % str(timer.eit) + " / " + str(eit)
+					print("[SerienRecorder] EIT: [%s]" % str(timer.eit) + " / " + str(eit))
 					if timer.eit != int(eit):
 						timer.eit = eit
 						# Respect VPS settings if eit is available now
@@ -191,7 +192,7 @@ class serienRecTimer:
 
 					# Startzeit
 					updateStartTime = False
-					print "[SerienRecorder] Start: [%s]" % str(timer.begin) + " / " + str(start_unixtime)
+					print("[SerienRecorder] Start: [%s]" % str(timer.begin) + " / " + str(start_unixtime))
 					if start_unixtime and timer.begin != start_unixtime and abs(start_unixtime - timer.begin) > 30:
 						timer.begin = start_unixtime
 						timer.end = end_unixtime
@@ -204,7 +205,7 @@ class serienRecTimer:
 					# Endzeit
 					updateEndTime = False
 					old_end = time.strftime("%d.%m. - %H:%M", time.localtime(int(timer.end)))
-					print "[SerienRecorder] End: [%s]" % str(timer.end) + " / " + str(end_unixtime)
+					print("[SerienRecorder] End: [%s]" % str(timer.end) + " / " + str(end_unixtime))
 					if end_unixtime and timer.end != end_unixtime and abs(end_unixtime - timer.end) > 30:
 						timer.begin = start_unixtime
 						timer.end = end_unixtime
@@ -218,7 +219,7 @@ class serienRecTimer:
 					updateName = False
 					old_timername = timer.name
 					timer_name = self.getTimerName(new_serien_name, new_staffel, new_episode, new_serien_title, markerType)
-					print "[SerienRecorder] Name: [%s]" % str(timer.name) + " / " + str(timer_name)
+					print("[SerienRecorder] Name: [%s]" % str(timer.name) + " / " + str(timer_name))
 					if timer.name != timer_name:
 						timer.name = timer_name
 						updateName = True
@@ -227,7 +228,7 @@ class serienRecTimer:
 					updateDescription = False
 					old_timerdescription = timer.description
 					timer_description = "S%sE%s - %s" % (str(new_staffel).zfill(2), str(new_episode).zfill(2), new_serien_title)
-					print "[SerienRecorder] Description: [%s]" % str(timer.description) + " / " + str(timer_description)
+					print("[SerienRecorder] Description: [%s]" % str(timer.description) + " / " + str(timer_description))
 					if timer.description != timer_description:
 						timer.description = timer_description
 						updateDescription = True
@@ -235,7 +236,7 @@ class serienRecTimer:
 					# Directory
 					updateDirectory = False
 					old_dirname = timer.dirname
-					print "[SerienRecorder] Directory: [%s]" % str(timer.dirname) + " / " + str(dirname)
+					print("[SerienRecorder] Directory: [%s]" % str(timer.dirname) + " / " + str(dirname))
 					if timer.dirname != dirname:
 						(dirname, dirname_serie) = getDirname(self.database, new_serien_name, serien_fsid, new_staffel)
 						STBHelpers.createDirectory(serien_fsid, 0, dirname, dirname_serie)
@@ -270,7 +271,7 @@ class serienRecTimer:
 						self.database.updateTimerStartTime(start_unixtime, eit, new_serien_title, serien_time, stbRef)
 						timerUpdated = True
 					else:
-						print "[SerienRecorder] No timer update needed"
+						print("[SerienRecorder] No timer update needed")
 						# SRLogger.writeLog("' %s - %s '" % (title, dirname), True)
 						# SRLogger.writeLog("   Timer muss nicht aktualisiert werden", True)
 						timerUpdated = True
@@ -278,7 +279,7 @@ class serienRecTimer:
 
 		# Timer not found - maybe removed from image timer list
 		if not timerFound:
-			print "[SerienRecorder] Timer not found"
+			print("[SerienRecorder] Timer not found")
 			SRLogger.writeLog("' %s - %s '" % (title, dirname), True)
 			SRLogger.writeLog("   Timer konnte nicht aktualisiert werden, weil er nicht gefunden werden konnte!", True)
 
@@ -450,12 +451,12 @@ class serienRecTimer:
 			# check for excluded weekdays - this can be done early so we can skip all other checks
 			# if the transmission date is on an excluded weekday
 			if str(excludedWeekdays).isdigit():
-				print "[SerienRecorder] - Excluded weekdays check"
+				print("[SerienRecorder] - Excluded weekdays check")
 				# SRLogger.writeLog("- Excluded weekdays check", True)
 				transmissionDate = datetime.date.fromtimestamp((int(timer_start_unixtime)))
 				weekday = transmissionDate.weekday()
-				print "    Serie = %s, Datum = %s, Wochentag = %s" % (label_serie, time.strftime("%d.%m.%Y - %H:%M", time.localtime(int(timer_start_unixtime))),
-					weekday)
+				print("    Serie = %s, Datum = %s, Wochentag = %s" % (label_serie, time.strftime("%d.%m.%Y - %H:%M", time.localtime(int(timer_start_unixtime))),
+					weekday))
 				# SRLogger.writeLog("   Serie = %s, Datum = %s, Wochentag = %s" % (label_serie, time.strftime("%d.%m.%Y - %H:%M", time.localtime(int(timer_start_unixtime))), weekday), True)
 				if excludedWeekdays & (1 << weekday) != 0:
 					SRLogger.writeLogFilter("timeRange", "' %s ' - Wochentag auf der Ausnahmeliste -> ' %s '" % (label_serie, transmissionDate.strftime('%A')))
@@ -630,7 +631,7 @@ class serienRecTimer:
 
 		# try to get eventID (eit) from epgCache
 		if config.plugins.serienRec.eventid.value and self.database.getUpdateFromEPG(serien_fsid):
-			print "[SerienRecorder] Update data from EPG"
+			print("[SerienRecorder] Update data from EPG")
 			eit, start_unixtime, end_unixtime = STBHelpers.getStartEndTimeFromEPG(start_unixtime, end_unixtime, margin_before, margin_after, serien_name, stbRef)
 			if eit is 0 and len(epgSeriesName) > 0 and epgSeriesName != serien_name:
 				eit, start_unixtime, end_unixtime = STBHelpers.getStartEndTimeFromEPG(start_unixtime, end_unixtime, margin_before, margin_after, epgSeriesName, stbRef)
@@ -702,13 +703,13 @@ class serienRecTimer:
 				return True
 			elif not tryDisabled:
 				self.konflikt = result["message"].replace("! ", "!\n").replace(" / ", "\n")
-				print "' %s ' - ACHTUNG! -> %s" % (label_serie, result["message"])
+				print("' %s ' - ACHTUNG! -> %s" % (label_serie, result["message"]))
 				SRLogger.writeLog("' %s ' - Timer konnte nicht angelegt werden%s -> [%s] - [%s] %s @ %s" % (
 				label_serie, optionalText, show_start, show_end, timer_name, stbChannel), True)
 				SRLogger.writeLog("' %s ' - ACHTUNG! -> %s" % (label_serie, result["message"]), True)
 			else:
 				self.konflikt = result["message"].replace("! ", "!\n").replace(" / ", "\n")
-				print "' %s ' - ACHTUNG! -> %s" % (label_serie, result["message"])
+				print("' %s ' - ACHTUNG! -> %s" % (label_serie, result["message"]))
 				SRLogger.writeLog("' %s ' - ACHTUNG! -> %s" % (label_serie, result["message"]), True)
 				dbMessage = result["message"].replace("In Konflikt stehende Timer vorhanden!", "").strip()
 
@@ -732,17 +733,17 @@ class serienRecTimer:
 					return True
 				else:
 					self.konflikt = result["message"].replace("! ", "!\n").replace(" / ", "\n")
-					print "' %s ' - ACHTUNG! -> %s" % (label_serie, result["message"])
+					print("' %s ' - ACHTUNG! -> %s" % (label_serie, result["message"]))
 					SRLogger.writeLog("' %s ' - ACHTUNG! -> %s" % (label_serie, result["message"]), True)
 		else:
-			print "Tuner belegt %s %s" % (label_serie, show_start)
+			print("Tuner belegt %s %s" % (label_serie, show_start))
 			SRLogger.writeLog("Tuner belegt: %s %s" % (label_serie, show_start), True)
 		return False
 
 	def addTimerToDB(self, serien_name, serien_wlid, serien_fsid, staffel, episode, title, start_time, stbRef, webChannel, eit, addToDatabase, TimerAktiviert=True):
 		seasonEpisodeString = "S%sE%s" % (str(staffel).zfill(2), str(episode).zfill(2))
 		if not addToDatabase:
-			print "[SerienRecorder] Timer angelegt: %s %s - %s" % (serien_name, seasonEpisodeString, title)
+			print("[SerienRecorder] Timer angelegt: %s %s - %s" % (serien_name, seasonEpisodeString, title))
 			SRLogger.writeLogFilter("timerDebug", "   Timer angelegt: %s %s - %s" % (serien_name, seasonEpisodeString, title))
 		else:
 			#(margin_before, margin_after) = self.database.getMargins(serien_fsid, webChannel,
@@ -754,11 +755,11 @@ class serienRecTimer:
 			if self.database.timerExistsByServiceRef(serien_fsid, stbRef, timerStartTime, timerStartTime):
 
 				self.database.updateTimerEIT(serien_fsid, stbRef, eit, timerStartTime, timerStartTime, TimerAktiviert)
-				print "[SerienRecorder] Timer bereits vorhanden: %s %s - %s" % (serien_name, seasonEpisodeString, title)
+				print("[SerienRecorder] Timer bereits vorhanden: %s %s - %s" % (serien_name, seasonEpisodeString, title))
 				SRLogger.writeLog("   Timer bereits vorhanden: %s %s - %s" % (serien_name, seasonEpisodeString, title))
 			else:
 				self.database.addToTimerList(serien_name, serien_fsid, episode, episode, staffel, title, start_time, stbRef, webChannel, eit, TimerAktiviert)
-				print "[SerienRecorder] Timer angelegt: %s %s - %s" % (serien_name, seasonEpisodeString, title)
+				print("[SerienRecorder] Timer angelegt: %s %s - %s" % (serien_name, seasonEpisodeString, title))
 				SRLogger.writeLogFilter("timerDebug", "   Timer angelegt: %s %s - %s" % (serien_name, seasonEpisodeString, title))
 
 
@@ -817,7 +818,7 @@ class serienRecTimer:
 
 			channelName = STBHelpers.getChannelByRef(self.channelList, stbRef)
 			title = "%s - S%sE%s - %s" % (serien_name, str(staffel).zfill(2), str(episode).zfill(2), serien_title)
-			print "[SerienRecorder] Update request for timer: %s [%d]" % (title, serien_time)
+			print("[SerienRecorder] Update request for timer: %s [%d]" % (title, serien_time))
 
 			markerType = self.database.getMarkerType(serien_fsid)
 			if markerType is None:
@@ -832,9 +833,9 @@ class serienRecTimer:
 			transmission = self.tempDB.getTransmissionForTimerUpdate(serien_fsid, staffel, episode, db_serien_time)
 			if transmission:
 				(new_serien_name, serien_wlid, serien_fsid, new_staffel, new_episode, new_serien_title, new_serien_time, updateFromEPG) = transmission
-				print "[SerienRecorder] Get transmission from database: %s [%d]" % (new_serien_title, new_serien_time)
+				print("[SerienRecorder] Get transmission from database: %s [%d]" % (new_serien_title, new_serien_time))
 			else:
-				print "[SerienRecorder] No transmission found for timer - update from EPG only"
+				print("[SerienRecorder] No transmission found for timer - update from EPG only")
 				new_serien_name = serien_name
 				new_staffel = staffel
 				new_episode = episode
@@ -874,7 +875,7 @@ class serienRecTimer:
 							start_unixtime = None
 							end_unixtime = None
 
-						print "[SerienRecorder] try to modify enigma2 timer: %s [%d]" % (title, serien_time)
+						print("[SerienRecorder] try to modify enigma2 timer: %s [%d]" % (title, serien_time))
 
 						if (str(new_staffel) is 'S' or str(new_staffel) is '0') and (str(new_episode) is '0' or str(new_episode) is '00'):
 							SRLogger.writeLog("' %s - %s '" % (title, dirname), True)
@@ -892,7 +893,7 @@ class serienRecTimer:
 															dirname, vpsSettings, markerType)
 
 						except Exception:
-							print "[SerienRecorder] Modifying enigma2 timer failed:", title, serien_time
+							print("[SerienRecorder] Modifying enigma2 timer failed:", title, serien_time)
 							SRLogger.writeLog("' %s - %s '" % (title, dirname), True)
 							SRLogger.writeLog("   Timeraktualisierung fehlgeschlagen @ %s" % channelName, True)
 						break
@@ -979,7 +980,7 @@ class serienRecBoxTimer:
 
 		recordHandler = NavigationInstance.instance.RecordTimer
 		removed = False
-		print "[SerienRecorder] try to remove enigma2 Timer:", serien_name, start_time
+		print("[SerienRecorder] try to remove enigma2 Timer:", serien_name, start_time)
 
 		# entferne aktivierte Timer
 		for timer in recordHandler.timer_list:
@@ -1048,12 +1049,12 @@ class serienRecBoxTimer:
 			timer.repeated = 0
 			try:
 				if isVTI() and autoAdjust is not None:
-					print "[SerienRecorder] Current autoAdjust for timer [%s]: %s" % (name, str(timer.autoadjust))
-					print "[SerienRecorder] autoAdjust is: %s" % str(autoAdjust)
+					print("[SerienRecorder] Current autoAdjust for timer [%s]: %s" % (name, str(timer.autoadjust)))
+					print("[SerienRecorder] autoAdjust is: %s" % str(autoAdjust))
 					timer.autoadjust = autoAdjust
-					print "[SerienRecorder] Set autoAdjust for timer [%s] to: %s" % (name, str(timer.autoadjust))
+					print("[SerienRecorder] Set autoAdjust for timer [%s] to: %s" % (name, str(timer.autoadjust)))
 			except:
-				print "[SerienRecorder] Failed to set autoAdjust for timer [%s] - missconfigured database" % name
+				print("[SerienRecorder] Failed to set autoAdjust for timer [%s] - missconfigured database" % name)
 
 			# Add tags
 			timerTags = timer.tags[:]
@@ -1083,13 +1084,13 @@ class serienRecBoxTimer:
 					"message": "In Konflikt stehende Timer vorhanden! %s" % " / ".join(errors)
 				}
 		except Exception, e:
-			print "[%s] <%s>" % (__name__, e)
+			print("[%s] <%s>" % (__name__, e))
 			return {
 				"result": False,
 				"message": "Timer konnte nicht angelegt werden '%s'!" % e
 			}
 
-		print "[SerienRecorder] Versuche Timer anzulegen:", name, dirname
+		print("[SerienRecorder] Versuche Timer anzulegen:", name, dirname)
 		SRLogger.writeLogFilter("timerDebug", "Versuche Timer anzulegen: ' %s - %s '" % (name, dirname))
 		return {
 			"result": True,

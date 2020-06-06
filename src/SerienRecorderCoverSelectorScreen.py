@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Cover Selector Screen
+from __future__ import print_function
 from Screens.Screen import Screen
 from Components.ActionMap import ActionMap
 from Components.Label import Label
@@ -66,10 +67,10 @@ class CoverSelectorScreen(Screen):
 		self._numberOfCovers = 0
 
 		from SerienRecorderSeriesServer import SeriesServer
-		print "[SerienRecorder] Get covers for id = ", str(self._serien_wlid)
+		print("[SerienRecorder] Get covers for id = ", str(self._serien_wlid))
 		covers = SeriesServer().getCoverURLs(self._serien_wlid)
 		if covers is not None:
-			print "[SerienRecorder] Number of covers found = ", len(covers)
+			print("[SerienRecorder] Number of covers found = ", len(covers))
 			self._numberOfCovers = len(covers)
 			ds = defer.DeferredSemaphore(tokens=5)
 			downloads = [ds.run(self.download, cover).addCallback(self.buildList, cover).addErrback(self.buildList, cover) for cover in covers]

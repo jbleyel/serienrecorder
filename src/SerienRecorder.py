@@ -1,4 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
+from __future__ import print_function
 from Components.AVSwitch import AVSwitch
 from Components.config import config, configfile
 
@@ -112,11 +113,11 @@ def getCover(self, serien_name, serien_id, serien_fsid, auto_check = False, forc
 					open(fsid_serien_cover_path, "a").close()
 				getCoverDataError("failed", self, fsid_serien_cover_path)
 	except Exception as e:
-		print "Exception loading cover: %s [%s]" % (fsid_serien_cover_path, str(e))
+		print("Exception loading cover: %s [%s]" % (fsid_serien_cover_path, str(e)))
 
 def getCoverDataError(error, self, serien_cover_path):
 	SRLogger.writeLog("Datenfehler beim Laden des Covers für ' %s ': %s" % (serien_cover_path, str(error)), True)
-	print error
+	print(error)
 
 def showCover(data, self, serien_cover_path, force_show=True):
 	if self is not None and config.plugins.serienRec.showCover.value:
@@ -143,7 +144,7 @@ def showCover(data, self, serien_cover_path, force_show=True):
 					self['cover'].instance.setPixmap(ptr)
 					self['cover'].show()
 		else:
-			print "[SerienRecorder] Coverfile not found: %s" % serien_cover_path
+			print("[SerienRecorder] Coverfile not found: %s" % serien_cover_path)
 
 def initDB():
 	# type: () -> object
@@ -158,7 +159,7 @@ def initDB():
 		config.plugins.serienRec.databasePath.save()
 		configfile.save()
 		SRLogger.writeLog("Datenbankpfad nicht gefunden, auf Standardpfad zurückgesetzt!")
-		print "[SerienRecorder] Datenbankpfad nicht gefunden, auf Standardpfad zurückgesetzt!"
+		print("[SerienRecorder] Datenbankpfad nicht gefunden, auf Standardpfad zurückgesetzt!")
 		Notifications.AddPopup(
 			"SerienRecorder Datenbank wurde nicht gefunden.\nDer Standardpfad für die Datenbank wurde wiederhergestellt!",
 			MessageBox.TYPE_INFO, timeout=10)
@@ -168,7 +169,7 @@ def initDB():
 		database = SRDatabase(serienRecDataBaseFilePath)
 	except:
 		SRLogger.writeLog("Fehler beim Initialisieren der Datenbank")
-		print "[SerienRecorder] Fehler beim Initialisieren der Datenbank"
+		print("[SerienRecorder] Fehler beim Initialisieren der Datenbank")
 		Notifications.AddPopup("SerienRecorder Datenbank kann nicht initialisiert werden.\nSerienRecorder wurde beendet!", MessageBox.TYPE_INFO, timeout=10)
 		return False
 
@@ -345,7 +346,7 @@ class serienRecCheckForRecording:
 		self.database = None
 		self.manuell = manuell
 		self.tvplaner_manuell = tvplaner_manuell
-		print "[SerienRecorder] 1__init__ tvplaner_manuell: ", tvplaner_manuell
+		print("[SerienRecorder] 1__init__ tvplaner_manuell: ", tvplaner_manuell)
 		self.newSeriesOrEpisodesFound = False
 		self.senderListe = {}
 		self.markers = []
@@ -392,12 +393,12 @@ class serienRecCheckForRecording:
 			else:
 				refreshTimer.callback.append(self.startCheck)
 			refreshTimer.start(((deltatime * 60) + random.randint(0, int(config.plugins.serienRec.maxDelayForAutocheck.value)*60)) * 1000, True)
-			print "[SerienRecorder] Auto-Check Uhrzeit-Timer gestartet."
-			print "[SerienRecorder] Verbleibende Zeit: %s Stunden" % (TimeHelpers.td2HHMMstr(datetime.timedelta(minutes=deltatime+int(config.plugins.serienRec.maxDelayForAutocheck.value))))
+			print("[SerienRecorder] Auto-Check Uhrzeit-Timer gestartet.")
+			print("[SerienRecorder] Verbleibende Zeit: %s Stunden" % (TimeHelpers.td2HHMMstr(datetime.timedelta(minutes=deltatime+int(config.plugins.serienRec.maxDelayForAutocheck.value)))))
 			SRLogger.writeLog("Verbleibende Zeit bis zum nächsten Auto-Check: %s Stunden\n" % TimeHelpers.td2HHMMstr(datetime.timedelta(minutes=deltatime+int(config.plugins.serienRec.maxDelayForAutocheck.value))), True)
 
 		if self.manuell:
-			print "[SerienRecorder] checkRecTimer manuell."
+			print("[SerienRecorder] checkRecTimer manuell.")
 			self.startCheck()
 			self.manuell = False
 			self.tvplaner_manuell = False
@@ -445,10 +446,10 @@ class serienRecCheckForRecording:
 		global autoCheckFinished
 		autoCheckFinished = False
 
-		print "[SerienRecorder] settings:"
-		print "[SerienRecorder] manuell:", self.manuell
-		print "[SerienRecorder] tvplaner_manuell:", self.tvplaner_manuell
-		print "[SerienRecorder] uhrzeit check:", config.plugins.serienRec.timeUpdate.value
+		print("[SerienRecorder] settings:")
+		print("[SerienRecorder] manuell:", self.manuell)
+		print("[SerienRecorder] tvplaner_manuell:", self.tvplaner_manuell)
+		print("[SerienRecorder] uhrzeit check:", config.plugins.serienRec.timeUpdate.value)
 
 		lt = time.localtime()
 		self.uhrzeit = time.strftime("%d.%m.%Y - %H:%M:%S", lt)
@@ -466,7 +467,7 @@ class serienRecCheckForRecording:
 
 		if not self.database.hasMarkers() and not config.plugins.serienRec.tvplaner and not config.plugins.serienRec.tvplaner_create_marker:
 			SRLogger.writeLog("\n---------' Starte Auto-Check um %s '---------" % self.uhrzeit, True)
-			print "[SerienRecorder] check: Tabelle SerienMarker leer."
+			print("[SerienRecorder] check: Tabelle SerienMarker leer.")
 			SRLogger.writeLog("Es sind keine Serien-Marker vorhanden - Auto-Check kann nicht ausgeführt werden.", True)
 			SRLogger.writeLog("---------' Auto-Check beendet '---------", True)
 			self.askForDSB()
@@ -474,7 +475,7 @@ class serienRecCheckForRecording:
 
 		if not self.database.hasChannels():
 			SRLogger.writeLog("\n---------' Starte Auto-Check um %s '---------" % self.uhrzeit, True)
-			print "[SerienRecorder] check: Tabelle Channels leer."
+			print("[SerienRecorder] check: Tabelle Channels leer.")
 			SRLogger.writeLog("Es wurden keine Sender zugeordnet - Auto-Check kann nicht ausgeführt werden.", True)
 			SRLogger.writeLog("---------' Auto-Check beendet '---------", True)
 			self.askForDSB()
@@ -487,7 +488,7 @@ class serienRecCheckForRecording:
 			if refreshTimerConnection:
 				refreshTimerConnection = None
 
-			print "[SerienRecorder] Auto-Check Timer stop."
+			print("[SerienRecorder] Auto-Check Timer stop.")
 			SRLogger.writeLog("Auto-Check stop.", True)
 
 		if config.plugins.serienRec.autochecktype.value == "1" and config.plugins.serienRec.timeUpdate.value:
@@ -499,8 +500,8 @@ class serienRecCheckForRecording:
 				refreshTimer.callback.append(self.startCheck)
 			refreshTimer.start(((deltatime * 60) + random.randint(0, int(config.plugins.serienRec.maxDelayForAutocheck.value)*60)) * 1000, True)
 
-			print "[SerienRecorder] Auto-Check Uhrzeit-Timer gestartet."
-			print "[SerienRecorder] Verbleibende Zeit: %s Stunden" % (TimeHelpers.td2HHMMstr(datetime.timedelta(minutes=deltatime+int(config.plugins.serienRec.maxDelayForAutocheck.value))))
+			print("[SerienRecorder] Auto-Check Uhrzeit-Timer gestartet.")
+			print("[SerienRecorder] Verbleibende Zeit: %s Stunden" % (TimeHelpers.td2HHMMstr(datetime.timedelta(minutes=deltatime+int(config.plugins.serienRec.maxDelayForAutocheck.value)))))
 			SRLogger.writeLog("Auto-Check Uhrzeit-Timer gestartet.", True)
 			SRLogger.writeLog("Verbleibende Zeit: %s Stunden" % TimeHelpers.td2HHMMstr(datetime.timedelta(minutes=deltatime+int(config.plugins.serienRec.maxDelayForAutocheck.value))), True)
 
@@ -513,16 +514,16 @@ class serienRecCheckForRecording:
 		self.database.removeExpiredTimerConflicts()
 
 		if self.tvplaner_manuell and config.plugins.serienRec.tvplaner.value:
-			print "\n---------' Starte Auto-Check am %s (TV-Planer manuell) '---------" % self.uhrzeit
+			print("\n---------' Starte Auto-Check am %s (TV-Planer manuell) '---------" % self.uhrzeit)
 			SRLogger.writeLog("\n---------' Starte Check am %s (TV-Planer manuell) '---------\n" % self.uhrzeit, True)
 		elif self.manuell:
-			print "\n---------' Starte Auto-Check am %s (manuell) '---------" % self.uhrzeit
+			print("\n---------' Starte Auto-Check am %s (manuell) '---------" % self.uhrzeit)
 			SRLogger.writeLog("\n---------' Starte Check am %s (manuell) '---------\n" % self.uhrzeit, True)
 		elif config.plugins.serienRec.tvplaner.value:
-			print "\n---------' Starte Auto-Check am %s (TV-Planer auto) '---------" % self.uhrzeit
+			print("\n---------' Starte Auto-Check am %s (TV-Planer auto) '---------" % self.uhrzeit)
 			SRLogger.writeLog("\n---------' Starte Auto-Check am %s (TV-Planer auto) '---------\n" % self.uhrzeit, True)
 		else:
-			print "\n---------' Starte Auto-Check am %s (auto)'---------" % self.uhrzeit
+			print("\n---------' Starte Auto-Check am %s (auto)'---------" % self.uhrzeit)
 			SRLogger.writeLog("\n---------' Starte Auto-Check am %s (auto)'---------\n" % self.uhrzeit, True)
 			if config.plugins.serienRec.showNotification.value in ("1", "3"):
 				Notifications.AddPopup("SerienRecorder Suchlauf nach neuen Timern wurde gestartet.", MessageBox.TYPE_INFO, timeout=3, id="Suchlauf wurde gestartet")
@@ -561,7 +562,7 @@ class serienRecCheckForRecording:
 			self.speedEndTime = time.clock()
 			speedTime = (self.speedEndTime - self.speedStartTime)
 			SRLogger.writeLog("---------' Auto-Check beendet ( Ausführungsdauer: %3.2f Sek.)'---------" % speedTime, True)
-			print "[SerienRecorder] ---------' Auto-Check beendet ( Ausführungsdauer: %3.2f Sek.)'---------" % speedTime
+			print("[SerienRecorder] ---------' Auto-Check beendet ( Ausführungsdauer: %3.2f Sek.)'---------" % speedTime)
 
 			SRLogger.backup()
 			from SerienRecorderTVPlaner import backupTVPlanerHTML
@@ -634,9 +635,9 @@ class serienRecCheckForRecording:
 				self.emailData = emailParserThread.result
 			except:
 				SRLogger.writeLog("TV-Planer Verarbeitung fehlgeschlagen!", True)
-				print "[SerienRecorder] TV-Planer exception!"
+				print("[SerienRecorder] TV-Planer exception!")
 				self.emailData = None
-		print "[SerienRecorder] lastFullCheckTime %s" % time.strftime("%d.%m.%Y - %H:%M", time.localtime(int(config.plugins.serienRec.tvplaner_last_full_check.value)))
+		print("[SerienRecorder] lastFullCheckTime %s" % time.strftime("%d.%m.%Y - %H:%M", time.localtime(int(config.plugins.serienRec.tvplaner_last_full_check.value))))
 		if self.emailData is None:
 			self.markers = self.database.getMarkers(config.plugins.serienRec.BoxID.value, config.plugins.serienRec.NoOfRecords.value)
 			config.plugins.serienRec.tvplaner_last_full_check.value = int(time.time())
@@ -674,7 +675,7 @@ class serienRecCheckForRecording:
 				self.tempDB.cleanUp()
 				if not (config.plugins.serienRec.tvplaner.value and config.plugins.serienRec.tvplaner_skipSerienServer.value):
 					SRLogger.writeLog("\n---------' Verarbeite Daten vom Server %s ---------\n" % fullCheck, True)
-					print "[SerienRecorder] Verarbeite Daten vom Server"
+					print("[SerienRecorder] Verarbeite Daten vom Server")
 
 				# Create a job queue to keep the jobs processed by the threads
 				# Create a result queue to keep the results of the job threads
@@ -696,7 +697,7 @@ class serienRecCheckForRecording:
 
 					if markerType == 1:
 						# temporary marker for movie recording
-						print "[SerienRecorder] ' %s - TV-Planer Film wird ignoriert '" % serienTitle
+						print("[SerienRecorder] ' %s - TV-Planer Film wird ignoriert '" % serienTitle)
 						continue
 					self.countSerien += 1
 					if SerieEnabled:
@@ -768,7 +769,7 @@ class serienRecCheckForRecording:
 				worker.start()
 
 			for serienTitle,SerieUrl,SerieStaffel,SerieSender,AbEpisode,AnzahlAufnahmen,SerieEnabled,excludedWeekdays,skipSeriesServer,markerType,fsID in self.database.getMarkers(config.plugins.serienRec.BoxID.value, config.plugins.serienRec.NoOfRecords.value, list(self.emailData.keys())):
-				print serienTitle
+				print(serienTitle)
 				if SerieEnabled:
 					# Process only if series is enabled
 					limitedChannels = False
@@ -823,18 +824,18 @@ class serienRecCheckForRecording:
 		speedTime = (self.speedEndTime - self.speedStartTime)
 		if config.plugins.serienRec.eventid.value:
 			SRLogger.writeLog("%s/%s Serie(n) sind vorgemerkt davon wurde(n) %s Timer erstellt und %s Timer aktualisiert." % (str(self.countActivatedSeries), str(self.countSerien), str(countTimer), str(countTimerUpdate)), True)
-			print "[SerienRecorder] %s/%s Serie(n) sind vorgemerkt davon wurde(n) %s Timer erstellt und %s Timer aktualisiert." % (str(self.countActivatedSeries), str(self.countSerien), str(countTimer), str(countTimerUpdate))
+			print("[SerienRecorder] %s/%s Serie(n) sind vorgemerkt davon wurde(n) %s Timer erstellt und %s Timer aktualisiert." % (str(self.countActivatedSeries), str(self.countSerien), str(countTimer), str(countTimerUpdate)))
 		else:
 			SRLogger.writeLog("%s/%s Serie(n) sind vorgemerkt davon wurde(n) %s Timer erstellt." % (str(self.countActivatedSeries), str(self.countSerien), str(countTimer)), True)
-			print "[SerienRecorder] %s/%s Serie(n) sind vorgemerkt davon wurde(n) %s Timer erstellt." % (str(self.countActivatedSeries), str(self.countSerien), str(countTimer))
+			print("[SerienRecorder] %s/%s Serie(n) sind vorgemerkt davon wurde(n) %s Timer erstellt." % (str(self.countActivatedSeries), str(self.countSerien), str(countTimer)))
 		if countNotActiveTimer > 0:
 			SRLogger.writeLog("%s Timer wurde(n) wegen Konflikten deaktiviert erstellt!" % str(countNotActiveTimer), True)
-			print "[SerienRecorder] %s Timer wurde(n) wegen Konflikten deaktiviert erstellt!" % str(countNotActiveTimer)
+			print("[SerienRecorder] %s Timer wurde(n) wegen Konflikten deaktiviert erstellt!" % str(countNotActiveTimer))
 		if countTimerFromWishlist > 0:
 			SRLogger.writeLog("%s Timer vom Merkzettel wurde(n) erstellt!" % str(countTimerFromWishlist), True)
-			print "[SerienRecorder] %s Timer vom Merkzettel wurde(n) erstellt!" % str(countTimerFromWishlist)
+			print("[SerienRecorder] %s Timer vom Merkzettel wurde(n) erstellt!" % str(countTimerFromWishlist))
 		SRLogger.writeLog("---------' Auto-Check beendet (Ausführungsdauer: %3.2f Sek.)'---------" % speedTime, True)
-		print "[SerienRecorder] ---------' Auto-Check beendet (Ausführungsdauer: %3.2f Sek.)'---------" % speedTime
+		print("[SerienRecorder] ---------' Auto-Check beendet (Ausführungsdauer: %3.2f Sek.)'---------" % speedTime)
 		if (config.plugins.serienRec.showNotification.value in ("2", "3")) and (not self.manuell):
 			statisticMessage = "Serien vorgemerkt: %s/%s\nTimer erstellt: %s\nTimer aktualisiert: %s\nTimer mit Konflikten: %s\nTimer vom Merkzettel: %s" % (
 			str(self.countActivatedSeries), str(self.countSerien), str(countTimer), str(countTimerUpdate),
@@ -849,16 +850,16 @@ class serienRecCheckForRecording:
 		return result
 
 	def checkFinal(self):
-		print "[SerienRecorder] checkFinal"
+		print("[SerienRecorder] checkFinal")
 		# final processing
 		if config.plugins.serienRec.tvplaner.value and config.plugins.serienRec.tvplaner_movies.value:
 			# remove all serien markers created for movies
 			try:
 				self.database.removeMovieMarkers()
-				print "[SerienRecorder] ' TV-Planer FilmMarker gelöscht '"
+				print("[SerienRecorder] ' TV-Planer FilmMarker gelöscht '")
 			except:
 				SRLogger.writeLog("' TV-Planer FilmMarker löschen fehlgeschlagen '", True)
-				print "[SerienRecorder] ' TV-Planer FilmMarker löschen fehlgeschlagen '"
+				print("[SerienRecorder] ' TV-Planer FilmMarker löschen fehlgeschlagen '")
 			global transmissionFailed
 			if transmissionFailed: 
 				# always do fullcheck after transmission error
@@ -876,7 +877,7 @@ class serienRecCheckForRecording:
 		# trigger read of log file
 		global autoCheckFinished
 		autoCheckFinished = True
-		print "[SerienRecorder] checkFinal: autoCheckFinished"
+		print("[SerienRecorder] checkFinal: autoCheckFinished")
 		if config.plugins.serienRec.autochecktype.value == "1":
 			lt = time.localtime()
 			deltatime = self.getNextAutoCheckTimer(lt)
@@ -901,7 +902,7 @@ class serienRecCheckForRecording:
 			#print "[SerienRecorder] processTransmissions: no Data"
 			return
 
-		print "[SerienRecorder] processTransmissions: %r [%d]" % (serien_name.encode('utf-8'), len(data))
+		print("[SerienRecorder] processTransmissions: %r [%d]" % (serien_name.encode('utf-8'), len(data)))
 
 		if len(data) == 0 and limitedChannels:
 			SRLogger.writeLogFilter("channels", "Für ' %s ' wurden keine Ausstrahlungstermine gefunden, die Sender sind am Marker eingeschränkt." % serien_name)
@@ -936,7 +937,7 @@ class serienRecCheckForRecording:
 					start_time = (time.localtime(int(start_unixtime)).tm_hour * 60) + time.localtime(int(start_unixtime)).tm_min
 					end_time = (time.localtime(int(end_unixtime)).tm_hour * 60) + time.localtime(int(end_unixtime)).tm_min
 					if not TimeHelpers.allowedTimeRange(fromTime, toTime, start_time, end_time):
-						print "[SerienRecorder] processTransmissions time range ignore: %r" % serien_name
+						print("[SerienRecorder] processTransmissions time range ignore: %r" % serien_name)
 						timeRangeConfigured = "%s:%s - %s:%s" % (str(int(fromTime) / 60).zfill(2), str(int(fromTime) % 60).zfill(2), str(int(toTime) / 60).zfill(2), str(int(toTime) % 60).zfill(2))
 						timeRangeTransmission = "%s:%s - %s:%s" % (str(int(start_time) / 60).zfill(2), str(int(start_time) % 60).zfill(2), str(int(end_time) / 60).zfill(2), str(int(end_time) % 60).zfill(2))
 						SRLogger.writeLogFilter("timeRange", "' %s ' - Sendung (%s) nicht in Zeitspanne [%s]" % (label_serie, timeRangeTransmission, timeRangeConfigured))
@@ -1038,14 +1039,14 @@ class serienRecCheckForRecording:
 		if not self.manuell:
 			if config.plugins.serienRec.afterAutocheck.value != "0":
 				if config.plugins.serienRec.DSBTimeout.value > 0 and not Screens.Standby.inStandby:
-					print "[SerienRecorder] Try to display shutdown notification..."
+					print("[SerienRecorder] Try to display shutdown notification...")
 					try:
 						notificationText = "Soll der SerienRecorder die Box in den Ruhemodus (Standby) schalten?"
 						if config.plugins.serienRec.afterAutocheck.value == "2":
 							notificationText = "Soll der SerienRecorder die Box ausschalten (Deep-Standby)?"
 						Notifications.AddNotificationWithCallback(self.gotoDeepStandby, MessageBox, text=notificationText, type=MessageBox.TYPE_YESNO, timeout=config.plugins.serienRec.DSBTimeout.value, default=True)
 					except Exception as e:
-						print "[SerienRecorder] Could not display shutdown notification - shutdown box without notification... (%s)" % str(e)
+						print("[SerienRecorder] Could not display shutdown notification - shutdown box without notification... (%s)" % str(e))
 						self.gotoDeepStandby(True)
 				else:
 					self.gotoDeepStandby(True)
@@ -1057,7 +1058,7 @@ class serienRecCheckForRecording:
 					for each in self.messageList:
 						Notifications.RemovePopup(each[3])
 
-					print "[SerienRecorder] gehe in Deep-Standby"
+					print("[SerienRecorder] gehe in Deep-Standby")
 					SRLogger.writeLog("gehe in Deep-Standby")
 					if Screens.Standby.inStandby:
 						from RecordTimer import RecordTimerEntry
@@ -1065,10 +1066,10 @@ class serienRecCheckForRecording:
 					else:
 						Notifications.AddNotificationWithID("Shutdown", Screens.Standby.TryQuitMainloop, 1)
 				else:
-					print "[SerienRecorder] Eine laufende Aufnahme verhindert den Deep-Standby"
+					print("[SerienRecorder] Eine laufende Aufnahme verhindert den Deep-Standby")
 					SRLogger.writeLog("Eine laufende Aufnahme verhindert den Deep-Standby")
 			else:
-				print "[SerienRecorder] gehe in Standby"
+				print("[SerienRecorder] gehe in Standby")
 				SRLogger.writeLog("gehe in Standby")
 				Notifications.AddNotification(Screens.Standby.Standby)
 
@@ -1086,13 +1087,13 @@ class serienRecCheckForRecording:
 
 	@staticmethod
 	def dataError(error):
-		print "[SerienRecorder] Es ist ein Fehler aufgetreten - die Daten konnten nicht abgerufen/verarbeitet werden: (%s)" % error
+		print("[SerienRecorder] Es ist ein Fehler aufgetreten - die Daten konnten nicht abgerufen/verarbeitet werden: (%s)" % error)
 
 # ---------------------------------- Main Functions ------------------------------------------
 
 def getNextWakeup():
 	if config.plugins.serienRec.wakeUpDSB.value and config.plugins.serienRec.timeUpdate.value and config.plugins.serienRec.autochecktype.value == "1":
-		print "[SerienRecorder] Deep-Standby WakeUp: AN"
+		print("[SerienRecorder] Deep-Standby WakeUp: AN")
 		now = time.localtime()
 		current_time = int(time.time())
 
@@ -1101,17 +1102,17 @@ def getNextWakeup():
 
 		# überprüfe ob die aktuelle zeit größer ist als der clock-timer + 1 day.
 		if int(current_time) > int(begin):
-			print "[SerienRecorder] WakeUp-Timer + 1 day."
+			print("[SerienRecorder] WakeUp-Timer + 1 day.")
 			begin += 86400
 		# 5 min. bevor der Clock-Check anfängt wecken.
 		begin -= 300
 
 		wakeupUhrzeit = time.strftime("%d.%m.%Y - %H:%M", time.localtime(int(begin)))
-		print "[SerienRecorder] Deep-Standby WakeUp um %s" % wakeupUhrzeit
+		print("[SerienRecorder] Deep-Standby WakeUp um %s" % wakeupUhrzeit)
 
 		return begin
 	else:
-		print "[SerienRecorder] Deep-Standby WakeUp: AUS"
+		print("[SerienRecorder] Deep-Standby WakeUp: AUS")
 
 
 def autostart(reason, **kwargs):
@@ -1129,7 +1130,7 @@ def autostart(reason, **kwargs):
 			serienRecCheckForRecording(session, False, False)
 
 		if config.plugins.serienRec.autochecktype.value in ("1", "2") and config.plugins.serienRec.timeUpdate.value:
-			print "[SerienRecorder] Auto-Check: AN"
+			print("[SerienRecorder] Auto-Check: AN")
 			startTimer = eTimer()
 			if isDreamOS():
 				startTimerConnection = startTimer.timeout.connect(startAutoCheckTimer)
@@ -1137,7 +1138,7 @@ def autostart(reason, **kwargs):
 				startTimer.callback.append(startAutoCheckTimer)
 			startTimer.start(60 * 1000, True)
 		else:
-			print "[SerienRecorder] Auto-Check: AUS"
+			print("[SerienRecorder] Auto-Check: AUS")
 
 		# API
 		#from SerienRecorderResource import addWebInterface

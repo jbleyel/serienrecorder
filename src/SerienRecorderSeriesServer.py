@@ -2,6 +2,7 @@
 
 # This file contains the SerienRecoder Serien Server stuff
 
+from __future__ import print_function
 from SerienRecorderHelpers import STBHelpers, SRVERSION
 
 
@@ -49,7 +50,7 @@ class SeriesServer:
 			rawData = conn.getresponse()
 			remoteChannelListLastUpdated = rawData.msg.dict['x-last-updated']
 		except Exception as e:
-			print "[SerienRecorder] Fehler beim Abrufen der Channel-List last update time [%s]" % str(e)
+			print("[SerienRecorder] Fehler beim Abrufen der Channel-List last update time [%s]" % str(e))
 		return remoteChannelListLastUpdated
 
 	def getSeriesID(self, seriesName):
@@ -215,7 +216,7 @@ class SeriesServer:
 			results = self.server.sp.cache.getCoverURLs(int(seriesID))
 			return results['covers']
 		except Exception as e:
-			print "[SerienRecorder] Fehler beim Abrufen der Cover [%s]" % str(e)
+			print("[SerienRecorder] Fehler beim Abrufen der Cover [%s]" % str(e))
 			return None
 			
 	def doGetWebChannels(self):

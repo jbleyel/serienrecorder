@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Season Begin Screen
+from __future__ import print_function
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
 from Screens.MessageBox import MessageBox
@@ -999,31 +1000,31 @@ class serienRecSetup(serienRecBaseScreen, Screen, ConfigListScreen, HelpableScre
 	def selectedMediaFile(self, res):
 		if res is not None:
 			if self['config'].getCurrent()[1] == config.plugins.serienRec.savetopath:
-				print res
+				print(res)
 				config.plugins.serienRec.savetopath.value = res
 				self.changedEntry()
 			if self['config'].getCurrent()[1] == config.plugins.serienRec.tvplaner_movies_filepath:
-				print res
+				print(res)
 				config.plugins.serienRec.tvplaner_movies_filepath.value = res
 				self.changedEntry()
 			elif self['config'].getCurrent()[1] == config.plugins.serienRec.LogFilePath:
-				print res
+				print(res)
 				config.plugins.serienRec.LogFilePath.value = res
 				self.changedEntry()
 			elif self['config'].getCurrent()[1] == config.plugins.serienRec.BackupPath:
-				print res
+				print(res)
 				config.plugins.serienRec.BackupPath.value = res
 				self.changedEntry()
 			elif self['config'].getCurrent()[1] == config.plugins.serienRec.databasePath:
-				print res
+				print(res)
 				config.plugins.serienRec.databasePath.value = res
 				self.changedEntry()
 			elif self['config'].getCurrent()[1] == config.plugins.serienRec.coverPath:
-				print res
+				print(res)
 				config.plugins.serienRec.coverPath.value = res
 				self.changedEntry()
 			elif self['config'].getCurrent()[1] == config.plugins.serienRec.piconPath:
-				print res
+				print(res)
 				config.plugins.serienRec.piconPath.value = res
 				self.changedEntry()
 

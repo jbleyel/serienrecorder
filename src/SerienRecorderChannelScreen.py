@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Channel Screen
+from __future__ import print_function
 from Components import config
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
@@ -225,7 +226,7 @@ class serienRecMainChannelEdit(serienRecBaseScreen, Screen, HelpableScreen):
 		self.setMenuKeyText()
 
 	def readWebChannels(self):
-		print "[SerienRecorder] call webpage."
+		print("[SerienRecorder] call webpage.")
 		self['title'].setText("Lade Wunschliste-Sender...")
 		try:
 			self.createWebChannels(SeriesServer().doGetWebChannels(), False)
@@ -286,15 +287,15 @@ class serienRecMainChannelEdit(serienRecBaseScreen, Screen, HelpableScreen):
 						self.database.addChannels(channels)
 
 			else:
-				print "[SerienRecorder] webChannel list leer."
+				print("[SerienRecorder] webChannel list leer.")
 
 			if len(self.serienRecChannelList) != 0:
 				self.chooseMenuList.setList(map(self.buildList, self.serienRecChannelList))
 			else:
-				print "[SerienRecorder] Fehler bei der Erstellung der SerienRecChlist."
+				print("[SerienRecorder] Fehler bei der Erstellung der SerienRecChlist.")
 
 		else:
-			print "[SerienRecorder] get webChannel error."
+			print("[SerienRecorder] get webChannel error.")
 
 		self['title'].setText("Wunschliste-Sender / STB-Sender")
 
@@ -377,7 +378,7 @@ class serienRecMainChannelEdit(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def keyOK(self):
 		if self['list'].getCurrent() is None:
-			print "[SerienRecorder] Sender-Liste leer."
+			print("[SerienRecorder] Sender-Liste leer.")
 			return
 
 		if self.modus == "list":
@@ -431,7 +432,7 @@ class serienRecMainChannelEdit(serienRecBaseScreen, Screen, HelpableScreen):
 				stbRef = self['popup_list'].getCurrent()[0][1]
 				altstbSender = self['popup_list2'].getCurrent()[0][0]
 				altstbRef = self['popup_list2'].getCurrent()[0][1]
-				print "[SerienRecorder] select:", chlistSender, stbSender, stbRef, altstbSender, altstbRef
+				print("[SerienRecorder] select:", chlistSender, stbSender, stbRef, altstbSender, altstbRef)
 				channels = []
 				if stbSender != "" or altstbSender != "":
 					channels.append((stbSender, stbRef, altstbSender, altstbRef, 1, chlistSender.lower()))
@@ -448,17 +449,17 @@ class serienRecMainChannelEdit(serienRecBaseScreen, Screen, HelpableScreen):
 			self['popup_bg'].hide()
 
 			if self['list'].getCurrent() is None:
-				print "[SerienRecorder] Sender-Liste leer (list)."
+				print("[SerienRecorder] Sender-Liste leer (list).")
 				return
 
 			if self['popup_list'].getCurrent() is None:
-				print "[SerienRecorder] Sender-Liste leer (popup_list)."
+				print("[SerienRecorder] Sender-Liste leer (popup_list).")
 				return
 
 			chlistSender = self['list'].getCurrent()[0][0]
 			stbSender = self['popup_list'].getCurrent()[0][0]
 			stbRef = self['popup_list'].getCurrent()[0][1]
-			print "[SerienRecorder] select:", chlistSender, stbSender, stbRef
+			print("[SerienRecorder] select:", chlistSender, stbSender, stbRef)
 			channels = []
 			if stbSender != "":
 				channels.append((stbSender, stbRef, 1, chlistSender.lower()))
@@ -471,7 +472,7 @@ class serienRecMainChannelEdit(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def keyRed(self):
 		if self['list'].getCurrent() is None:
-			print "[SerienRecorder] Sender-Liste leer."
+			print("[SerienRecorder] Sender-Liste leer.")
 			return
 
 		if self.modus == "list":
@@ -491,7 +492,7 @@ class serienRecMainChannelEdit(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def channelReset(self, execute):
 		if execute:
-			print "[SerienRecorder] channel-list reset..."
+			print("[SerienRecorder] channel-list reset...")
 			SRLogger.writeLog("Senderliste wird aktualisiert...")
 
 			if config.plugins.serienRec.selectBouquets.value:
@@ -506,7 +507,7 @@ class serienRecMainChannelEdit(serienRecBaseScreen, Screen, HelpableScreen):
 				self['title'].setText("Fehler beim Laden der Wunschliste-Sender")
 				SRLogger.writeLog("Fehler beim Laden der Senderliste vom SerienServer.", True)
 		else:
-			print "[SerienRecorder] channel-list ok."
+			print("[SerienRecorder] channel-list ok.")
 
 	def keyBlue(self):
 		self.session.openWithCallback(self.autoMatch, MessageBox, "Es wird versucht, für alle nicht zugeordneten Wunschliste-Sender, einen passenden STB-Sender zu finden, dabei werden zunächst HD Sender bevorzugt.\n\nDies kann, je nach Umfang der Senderliste, einige Zeit (u.U. einige Minuten) dauern - bitte haben Sie Geduld!\n\nAutomatische Zuordnung jetzt durchführen?", MessageBox.TYPE_YESNO)
@@ -525,7 +526,7 @@ class serienRecMainChannelEdit(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def keyRedLong(self):
 		if self['list'].getCurrent() is None:
-			print "[SerienRecorder] Sender Tabelle leer."
+			print("[SerienRecorder] Sender Tabelle leer.")
 			return
 		else:
 			self.selected_sender = self['list'].getCurrent()[0][0]

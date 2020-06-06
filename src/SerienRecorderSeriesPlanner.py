@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Series Planner
+from __future__ import print_function
 import threading, os, time, datetime
 import cPickle as pickle
 from Components.config import config
@@ -135,7 +136,7 @@ class serienRecSeriesPlanner:
 				daylist[0].append((regional, paytv, neu, prime, transmissionTime, serien_name, sender, staffel,
 				                   episode, title, aufnahme, serieAdded, bereits_vorhanden, serien_wlid, serien_fsid, serien_info))
 
-		print "[SerienRecorder] Es wurden %s Serie(n) gefunden" % len(daylist[0])
+		print("[SerienRecorder] Es wurden %s Serie(n) gefunden" % len(daylist[0]))
 
 		if (not self.manuell) and config.plugins.serienRec.planerCacheEnabled.value and headDate:
 			d = headDate[0].split(',')

@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Conflicts Screen
+from __future__ import print_function
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
 from Screens.MessageBox import MessageBox
@@ -134,7 +135,7 @@ class serienRecShowConflicts(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def keyBlue(self):
 		if self['menu_list'].getCurrent() is None:
-			print "[SerienRecorder] Conflict-List leer."
+			print("[SerienRecorder] Conflict-List leer.")
 			return
 		else:
 			if config.plugins.serienRec.confirmOnDelete.value:

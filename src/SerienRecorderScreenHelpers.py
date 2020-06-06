@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Screen Helpers
+from __future__ import print_function
 from enigma import eListboxPythonMultiContent, gFont, getDesktop, eTimer
 from Components.config import config
 from Components.Label import Label
@@ -78,7 +79,7 @@ elif DESKTOP_WIDTH > 1280:
 	skinFactor = 1.5
 else:
 	skinFactor = 1
-print "[SerienRecorder] Skinfactor: %s" % skinFactor
+print("[SerienRecorder] Skinfactor: %s" % skinFactor)
 
 def SelectSkin():
 	global buttonText_na

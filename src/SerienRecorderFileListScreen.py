@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Season Begin Screen
+from __future__ import print_function
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
 from Screens.MessageBox import MessageBox
@@ -142,7 +143,7 @@ class serienRecFileListScreen(serienRecBaseScreen, Screen, HelpableScreen):
 	def wSearch(self, Path_name):
 		if Path_name:
 			Path_name = "%s%s/" % (self['menu_list'].getSelection()[0], Path_name)
-			print Path_name
+			print(Path_name)
 			if not os.path.exists(Path_name):
 				try:
 					os.makedirs(Path_name)

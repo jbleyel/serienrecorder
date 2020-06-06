@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Timer-List Screen
+from __future__ import print_function
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
 from Screens.MessageBox import MessageBox
@@ -279,9 +280,9 @@ class serienRecTimerListScreen(serienRecBaseScreen, Screen, HelpableScreen):
 		from SerienRecorderTimer import serienRecBoxTimer
 		removed = serienRecBoxTimer.removeTimerEntry(title, serien_time, serien_eit)
 		if not removed:
-			print "[SerienRecorder] enigma2 NOOOTTT removed"
+			print("[SerienRecorder] enigma2 NOOOTTT removed")
 		else:
-			print "[SerienRecorder] enigma2 Timer removed."
+			print("[SerienRecorder] enigma2 Timer removed.")
 
 		self.database.removeTimer(serien_fsid, staffel, episode, None, serien_time, serien_channel)
 		seasonEpisodeString = "S%sE%s" % (str(staffel).zfill(2), str(episode).zfill(2))
@@ -294,7 +295,7 @@ class serienRecTimerListScreen(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def keyRed(self):
 		if self['menu_list'].getCurrent() is None:
-			print "[SerienRecorder] Angelegte Timer Tabelle leer."
+			print("[SerienRecorder] Angelegte Timer Tabelle leer.")
 			return
 
 		serien_name = self['menu_list'].getCurrent()[0][0]
@@ -306,7 +307,7 @@ class serienRecTimerListScreen(serienRecBaseScreen, Screen, HelpableScreen):
 		serien_eit = self['menu_list'].getCurrent()[0][8]
 		serien_fsid = self['menu_list'].getCurrent()[0][10]
 
-		print self['menu_list'].getCurrent()[0]
+		print(self['menu_list'].getCurrent()[0])
 
 		if config.plugins.serienRec.confirmOnDelete.value:
 			self.session.openWithCallback(self.callDeleteSelectedTimer, MessageBox, "Soll '%s - S%sE%s - %s' wirklich gelöscht werden?" %
@@ -605,9 +606,9 @@ class serienRecModifyAdded(serienRecBaseScreen, Screen, HelpableScreen):
 		if self.aToEpisode is None: # or self.aFromEpisode is None or self.aStaffel is None:
 			return
 		else:
-			print "[SerienRecorder] Staffel: %s" % self.aStaffel
-			print "[SerienRecorder] von Episode: %s" % self.aFromEpisode
-			print "[SerienRecorder] bis Episode: %s" % self.aToEpisode
+			print("[SerienRecorder] Staffel: %s" % self.aStaffel)
+			print("[SerienRecorder] von Episode: %s" % self.aFromEpisode)
+			print("[SerienRecorder] bis Episode: %s" % self.aToEpisode)
 
 			if self.aStaffel.startswith('0') and len(self.aStaffel) > 1:
 				self.aStaffel = self.aStaffel[1:]
@@ -631,7 +632,7 @@ class serienRecModifyAdded(serienRecBaseScreen, Screen, HelpableScreen):
 			self['popup_bg'].hide()
 
 			if self['popup_list'].getCurrent() is None:
-				print "[SerienRecorder] Marker-Liste leer."
+				print("[SerienRecorder] Marker-Liste leer.")
 				return
 
 			self.aSerie = self['popup_list'].getCurrent()[0][0]

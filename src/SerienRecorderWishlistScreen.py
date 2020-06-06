@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Wishlist Screen
+from __future__ import print_function
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
 from Screens.MessageBox import MessageBox
@@ -214,9 +215,9 @@ class serienRecWishlistScreen(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def answerToEpisode(self, aToEpisode):
 		self.aToEpisode = aToEpisode
-		print "[SerienRecorder] Staffel: %s" % self.aStaffel
-		print "[SerienRecorder] von Episode: %s" % self.aFromEpisode
-		print "[SerienRecorder] bis Episode: %s" % self.aToEpisode
+		print("[SerienRecorder] Staffel: %s" % self.aStaffel)
+		print("[SerienRecorder] von Episode: %s" % self.aFromEpisode)
+		print("[SerienRecorder] bis Episode: %s" % self.aToEpisode)
 
 		if self.aToEpisode is None or self.aFromEpisode is None or self.aStaffel is None or self.aToEpisode == "":
 			return
@@ -240,7 +241,7 @@ class serienRecWishlistScreen(serienRecBaseScreen, Screen, HelpableScreen):
 			self['popup_bg'].hide()
 
 			if self['popup_list'].getCurrent() is None:
-				print "[SerienRecorder] Marker-Liste leer."
+				print("[SerienRecorder] Marker-Liste leer.")
 				return
 
 			self.aSerie = self['popup_list'].getCurrent()[0][0]
@@ -252,7 +253,7 @@ class serienRecWishlistScreen(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def keyRed(self):
 		if self['menu_list'].getCurrent() is None:
-			print "[SerienRecorder] Merkzettel ist leer."
+			print("[SerienRecorder] Merkzettel ist leer.")
 			return
 
 		zeile = self['menu_list'].getCurrent()[0]
@@ -286,7 +287,7 @@ class serienRecWishlistScreen(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def keyBlue(self):
 		if self['menu_list'].getCurrent() is None:
-			print "[SerienRecorder] Merkzettel ist leer."
+			print("[SerienRecorder] Merkzettel ist leer.")
 			return
 
 		if config.plugins.serienRec.confirmOnDelete.value:

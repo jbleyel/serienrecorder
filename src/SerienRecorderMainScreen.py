@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Main Screen
+from __future__ import print_function
 import os, datetime, time
 
 
@@ -291,19 +292,19 @@ class serienRecMainScreen(serienRecBaseScreen, Screen, HelpableScreen):
 		return channelListUpToDate
 
 	def startScreen(self):
-		print "[SerienRecorder] version %s is running..." % config.plugins.serienRec.showversion.value
+		print("[SerienRecorder] version %s is running..." % config.plugins.serienRec.showversion.value)
 
 		if not SerienRecorder.refreshTimer:
 			if config.plugins.serienRec.timeUpdate.value:
 				SerienRecorder.serienRecCheckForRecording(self.session, False, False)
 
 		if not SerienRecorder.initDB():
-			print "[SerienRecorder] initDB failed"
+			print("[SerienRecorder] initDB failed")
 			super(self.__class__, self).close()
 		else:
 			self.database = SRDatabase(SerienRecorder.serienRecDataBaseFilePath)
 			if not self.database.hasChannels():
-				print "[SerienRecorder] Channellist is empty !"
+				print("[SerienRecorder] Channellist is empty !")
 				from SerienRecorderChannelScreen import serienRecMainChannelEdit
 				self.session.openWithCallback(self.readPlanerData, serienRecMainChannelEdit)
 			else:
@@ -330,7 +331,7 @@ class serienRecMainScreen(serienRecBaseScreen, Screen, HelpableScreen):
 			self.readPlanerData(False)
 
 	def readPlanerData(self, answer=True):
-		print "[SerienRecorder] readPlanerData"
+		print("[SerienRecorder] readPlanerData")
 		if not showMainScreen:
 			self.keyCancel()
 			self.close()
@@ -447,7 +448,7 @@ class serienRecMainScreen(serienRecBaseScreen, Screen, HelpableScreen):
 				                       regional, paytv, neu, prime, transmissionTime, serien_name, sender, staffel,
 				                       episode, title, aufnahme, serieAdded, bereits_vorhanden, serien_wlid, serien_fsid, serien_info))
 
-			print "[SerienRecorder] Es wurden %s Episode(n) gefunden" % len(self.daylist[0])
+			print("[SerienRecorder] Es wurden %s Episode(n) gefunden" % len(self.daylist[0]))
 
 			if headDate:
 				d = headDate[0].split(',')
@@ -475,7 +476,7 @@ class serienRecMainScreen(serienRecBaseScreen, Screen, HelpableScreen):
 				self.page -= 1
 			self['title'].setText("Für heute werden %s Episode(n) vorgeschlagen." % len(self.daylist[0]))
 			self['title'].instance.setForegroundColor(parseColor("foreground"))
-			print "[SerienRecorder] Wunschliste Serien-Planer -> LISTE IST LEER !!!!"
+			print("[SerienRecorder] Wunschliste Serien-Planer -> LISTE IST LEER !!!!")
 			self.chooseMenuList.setList(map(self.buildPlanerList, self.daylist[0]))
 
 	def processTopThirty(self, data, useCache=False):

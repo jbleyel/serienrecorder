@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Season Begin Screen
+from __future__ import print_function
 from Screens.Screen import Screen
 from Screens.HelpMenu import HelpableScreen
 from Screens.MessageBox import MessageBox
@@ -154,7 +155,7 @@ class serienRecShowSeasonBegins(serienRecBaseScreen, Screen, HelpableScreen):
 		transmissionResults.join()
 
 		if not transmissionResults.getData():
-			print "[SerienRecorder]: Abfrage beim SerienServer doGetSeasonBegins() fehlgeschlagen"
+			print("[SerienRecorder]: Abfrage beim SerienServer doGetSeasonBegins() fehlgeschlagen")
 		else:
 			self.transmissions = transmissionResults.getData()
 			self.buildProposalList()
@@ -271,7 +272,7 @@ class serienRecShowSeasonBegins(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def keyOK(self):
 		if self[self.modus].getCurrent() is None:
-			print "[SerienRecorder] Proposal-DB leer."
+			print("[SerienRecorder] Proposal-DB leer.")
 			return
 		else:
 			(serien_name, serien_staffel, serien_sender, serien_startzeit, serien_wlid, serien_markerFlag, serien_fsid, serien_info) = self[self.modus].getCurrent()[0]

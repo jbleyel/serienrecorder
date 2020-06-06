@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # This file contains the SerienRecoder Marker Screen
+from __future__ import print_function
 import time, cPickle as pickle
 
 from Components.ActionMap import ActionMap, HelpableActionMap
@@ -381,7 +382,7 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def keyCheck(self):
 		if self['menu_list'].getCurrent() is None:
-			print "[SerienRecorder] Serien-Marker Tabelle leer."
+			print("[SerienRecorder] Serien-Marker Tabelle leer.")
 			return
 		if self.modus == "menu_list":
 			if config.plugins.serienRec.tvplaner.value:
@@ -399,7 +400,7 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 			select_staffel = self['popup_list'].getCurrent()[0][0]
 			select_mode = self['popup_list'].getCurrent()[0][1]
 			select_index = self['popup_list'].getCurrent()[0][2]
-			print select_staffel, select_mode
+			print(select_staffel, select_mode)
 			if select_mode == 0:
 				select_mode = 1
 			else:
@@ -446,7 +447,7 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 			select_sender = self['popup_list'].getCurrent()[0][0]
 			select_mode = self['popup_list'].getCurrent()[0][1]
 			select_index = self['popup_list'].getCurrent()[0][2]
-			print select_sender, select_mode
+			print(select_sender, select_mode)
 			if select_mode == 0:
 				select_mode = 1
 			else:
@@ -471,7 +472,7 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 	def staffelSelect(self):
 		if self.modus == "menu_list":
 			if self['menu_list'].getCurrent() is None:
-				print "[SerienRecorder] Serien-Marker Tabelle leer."
+				print("[SerienRecorder] Serien-Marker Tabelle leer.")
 				return
 
 			self.modus = "popup_list"
@@ -530,7 +531,7 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 	def keyGreen(self):
 		if self.modus == "menu_list":
 			if self['menu_list'].getCurrent() is None:
-				print "[SerienRecorder] Serien-Marker Tabelle leer."
+				print("[SerienRecorder] Serien-Marker Tabelle leer.")
 				return
 
 			activeChannels = self.database.getActiveChannels()
@@ -604,7 +605,7 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 	def keyRed(self):
 		if self.modus == "menu_list":
 			if self['menu_list'].getCurrent() is None:
-				print "[SerienRecorder] Serien-Marker Tabelle leer."
+				print("[SerienRecorder] Serien-Marker Tabelle leer.")
 				return
 			else:
 				self.selected_serien_wlid = self['menu_list'].getCurrent()[0][2]
@@ -614,7 +615,7 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 	def keyRedLong(self):
 		if self.modus == "menu_list":
 			if self['menu_list'].getCurrent() is None:
-				print "[SerienRecorder] Serien-Marker Tabelle leer."
+				print("[SerienRecorder] Serien-Marker Tabelle leer.")
 				return
 			else:
 				serien_name = self['menu_list'].getCurrent()[0][1]
@@ -627,7 +628,7 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 	def disableAll(self):
 		if self.modus == "menu_list":
 			if self['menu_list'].getCurrent() is None:
-				print "[SerienRecorder] Serien-Marker Tabelle leer."
+				print("[SerienRecorder] Serien-Marker Tabelle leer.")
 				return
 			else:
 				self.session.openWithCallback(self.callDisableAll, MessageBox, "Alle Serien-Marker für diese Box deaktivieren?", MessageBox.TYPE_YESNO, default = False)
@@ -637,10 +638,10 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 		if ID:
 			self.database.removeAllMarkerSeasons(self.selected_serien_wlid)
 			liste = self.staffel_liste[1:]
-			print "[SerienRecorder] insertStaffelMarker"
-			print liste
+			print("[SerienRecorder] insertStaffelMarker")
+			print(liste)
 			liste = zip(*liste)
-			print liste
+			print(liste)
 			if 1 in liste[1]:
 				TimerForSpecials = 0
 				AlleStaffelnAb = 999999
@@ -731,7 +732,7 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def wSearch(self, serien_name):
 		if serien_name:
-			print serien_name
+			print(serien_name)
 			self.changesMade = True
 			if config.plugins.serienRec.tvplaner_full_check.value:
 				config.plugins.serienRec.tvplaner_last_full_check.value = int(0)
@@ -793,7 +794,7 @@ class serienRecMarker(serienRecBaseScreen, Screen, HelpableScreen):
 		if self.modus == "popup_list" or self.modus == "popup_list2":
 			self.keyCancel()
 		else:
-			print "[SerienRecorder] MarkerScreen exit"
+			print("[SerienRecorder] MarkerScreen exit")
 			import SerienRecorderMainScreen
 			SerienRecorderMainScreen.showMainScreen = True
 			if config.plugins.serienRec.refreshViews.value:
@@ -1251,7 +1252,7 @@ class serienRecMarkerSetup(serienRecBaseScreen, Screen, ConfigListScreen, Helpab
 	def selectedMediaFile(self, res):
 		if res is not None:
 			if self['config'].instance.getCurrentIndex() == 0:
-				print res
+				print(res)
 				self.savetopath.value = res
 				self.changedEntry()
 
@@ -1596,14 +1597,14 @@ class serienRecSendeTermine(serienRecBaseScreen, Screen, HelpableScreen):
 
 	def searchEvents(self, result=None):
 		self['title'].setText("Suche ' %s '" % self.seriesName)
-		print "[SerienRecorder] suche ' %s '" % self.seriesName
-		print self.seriesWLID
+		print("[SerienRecorder] suche ' %s '" % self.seriesName)
+		print(self.seriesWLID)
 
 		transmissions = None
 		if self.seriesWLID:
 
 			if self.seriesWLID != 0:
-				print self.seriesWLID
+				print(self.seriesWLID)
 				getCover(self, self.seriesName, self.seriesWLID, self.seriesFSID)
 
 				if self.filterMode is 0:
@@ -1812,7 +1813,7 @@ class serienRecSendeTermine(serienRecBaseScreen, Screen, HelpableScreen):
 
 		else:
 			self['title'].setText("Keine Sendetermine ausgewählt.")
-			print "[SerienRecorder] keine Sendetermine ausgewählt."
+			print("[SerienRecorder] keine Sendetermine ausgewählt.")
 
 		return changesMade
 
@@ -1935,7 +1936,7 @@ class serienRecSendeTermine(serienRecBaseScreen, Screen, HelpableScreen):
 
 		lt = time.localtime()
 		uhrzeit = time.strftime("%d.%m.%Y - %H:%M:%S", lt)
-		print "\n---------' Manuelle Timererstellung aus Sendeterminen um %s '---------" % uhrzeit
+		print("\n---------' Manuelle Timererstellung aus Sendeterminen um %s '---------" % uhrzeit)
 		SRLogger.writeLog("\n---------' Manuelle Timererstellung aus Sendeterminen um %s '---------" % uhrzeit, True)
 		for serien_name, sender, start_unixtime, end_unixtime, staffel, episode, title, status, addedType in sendetermine:
 			if int(status) == 1:
@@ -2006,12 +2007,12 @@ class serienRecSendeTermine(serienRecBaseScreen, Screen, HelpableScreen):
 					STBHelpers.createDirectory(fsid, 0, dirname, dirname_serie)
 
 		SRLogger.writeLog("Es wurde(n) %s Timer erstellt." % str(activatedTimer), True)
-		print "[SerienRecorder] Es wurde(n) %s Timer erstellt." % str(activatedTimer)
+		print("[SerienRecorder] Es wurde(n) %s Timer erstellt." % str(activatedTimer))
 		if deactivatedTimer > 0:
 			SRLogger.writeLog("%s Timer wurde(n) wegen Konflikten deaktiviert erstellt!" % str(deactivatedTimer), True)
-			print "[SerienRecorder] %s Timer wurde(n) wegen Konflikten deaktiviert erstellt!" % str(deactivatedTimer)
+			print("[SerienRecorder] %s Timer wurde(n) wegen Konflikten deaktiviert erstellt!" % str(deactivatedTimer))
 		SRLogger.writeLog("---------' Manuelle Timererstellung aus Sendeterminen beendet '---------", True)
-		print "---------' Manuelle Timererstellung aus Sendeterminen beendet '---------"
+		print("---------' Manuelle Timererstellung aus Sendeterminen beendet '---------")
 
 		return activatedTimer, deactivatedTimer
 
@@ -2094,9 +2095,9 @@ class serienRecSendeTermine(serienRecBaseScreen, Screen, HelpableScreen):
 			self['text_yellow'].setText("Filter einschalten")
 			self.title_txt = "alle"
 
-		print "[SerienRecorder] suche ' %s '" % self.seriesName
+		print("[SerienRecorder] suche ' %s '" % self.seriesName)
 		self['title'].setText("Suche ' %s '" % self.seriesName)
-		print self.seriesWLID
+		print(self.seriesWLID)
 
 		if self.filterMode is 0:
 			webChannels = []

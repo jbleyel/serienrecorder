@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import pickle, shutil, sqlite3, time
 
 from SerienRecorderHelpers import getChangedSeriesNames
@@ -554,7 +555,7 @@ class SRDatabase:
 				if str(AnzahlWiederholungen).isdigit():
 					numberOfRecordings = int(AnzahlWiederholungen)
 			for i in range(int(fromEpisode), int(toEpisode) + 1):
-				print "[SerienRecorder] %s Staffel: %s Episode: %s " % (str(series), str(season), str(i))
+				print("[SerienRecorder] %s Staffel: %s Episode: %s " % (str(series), str(season), str(i)))
 				cur.execute("SELECT * FROM Merkzettel WHERE fsID=? AND LOWER(Staffel)=? AND LOWER(Episode)=?", (fsID, season.lower(), str(i).zfill(2).lower()))
 				row = cur.fetchone()
 				if not row:
@@ -1321,7 +1322,7 @@ class SRDatabase:
 		else:
 			if int(fromEpisode) != 0 or int(toEpisode) != 0:
 				for i in range(int(fromEpisode), int(toEpisode)+1):
-					print "[SerienRecorder] %s Staffel: %s Episode: %s " % (str(series), str(season), str(i))
+					print("[SerienRecorder] %s Staffel: %s Episode: %s " % (str(series), str(season), str(i)))
 					cur.execute("INSERT OR IGNORE INTO AngelegteTimer VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (series, season, str(i).zfill(2), episodeTitle, int(startUnixtime), stbRef, webChannel, eit, int(activated), fsID))
 				result = True
 		cur.close()

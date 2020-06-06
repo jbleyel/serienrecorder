@@ -2,6 +2,7 @@
 
 # This file contain some helper functions
 # which called from other SerienRecorder modules
+from __future__ import print_function
 from Components.config import config
 from Components.AVSwitch import AVSwitch
 
@@ -50,7 +51,7 @@ def isVTI():
 	try:
 		from enigma import getVTiVersionString
 		imageversion = getVTiVersionString()
-		print "[SerienRecorder] VTI version: " + imageversion
+		print("[SerienRecorder] VTI version: " + imageversion)
 	except ImportError:
 		isVTIImage = False
 	else:
@@ -328,9 +329,9 @@ class STBHelpers:
 	def buildSTBChannelList(cls, BouquetName=None):
 		serien_chlist = []
 		mask = (eServiceReference.isMarker | eServiceReference.isDirectory)
-		print "[SerienRecorder] read STB Channellist.."
+		print("[SerienRecorder] read STB Channellist..")
 		tvbouquets = cls.getTVBouquets()
-		print "[SerienRecorder] found %s bouquet: %s" % (len(tvbouquets), tvbouquets)
+		print("[SerienRecorder] found %s bouquet: %s" % (len(tvbouquets), tvbouquets))
 
 		if not BouquetName:
 			for bouquet in tvbouquets:
@@ -362,7 +363,7 @@ class STBHelpers:
 
 	@classmethod
 	def getEPGEvent(cls, channelref, title, starttime):
-		print "[SerienRecorder] getEPGEvent: Try to find: %s [%d]" % (title, starttime)
+		print("[SerienRecorder] getEPGEvent: Try to find: %s [%d]" % (title, starttime))
 		epgmatches = []
 		epgcache = eEPGCache.getInstance()
 		query = ['RITBDSE', (channelref, 0, int(starttime) - (int(cls.getEPGTimeSpan()) * 60), -1)]
@@ -374,18 +375,18 @@ class STBHelpers:
 
 		lowEPGStartTime = int(int(starttime) - (int(cls.getEPGTimeSpan()) * 60))
 		highEPGStartTime = int(int(starttime) + (int(cls.getEPGTimeSpan()) * 60))
-		print "[SerienRecorder] getEPGEvent: Boundaries: [%d] - [%d]" % (lowEPGStartTime, highEPGStartTime)
+		print("[SerienRecorder] getEPGEvent: Boundaries: [%d] - [%d]" % (lowEPGStartTime, highEPGStartTime))
 
 		for serviceref, eit, name, begin, duration, shortdesc, extdesc in allevents:
 			normalized_name = regex.sub("", name.lower().replace(" ", ""))
 
 			nameMatch = False
-			print "[SerienRecorder] getEPGEvent: (%s): %s (%s) [%s] == [%s] (%s)" % (str(eit), str(begin), str(duration), normalized_title, normalized_name, shortdesc)
+			print("[SerienRecorder] getEPGEvent: (%s): %s (%s) [%s] == [%s] (%s)" % (str(eit), str(begin), str(duration), normalized_title, normalized_name, shortdesc))
 			if normalized_name == normalized_title or (normalized_name in normalized_title or normalized_title in normalized_name):
 				nameMatch = True
 
 			if channelref == serviceref and bool(lowEPGStartTime <= int(begin) <= highEPGStartTime) and nameMatch:
-				print "[SerienRecorder] getEPGEvent: Event found"
+				print("[SerienRecorder] getEPGEvent: Event found")
 				epgmatches.append((serviceref, eit, name, begin, duration, shortdesc, extdesc))
 				break
 
@@ -403,7 +404,7 @@ class STBHelpers:
 			(noEventsFound, event_matches) = cls.getEPGEvent(stbRef, serien_name, int(start_unixtime_eit) + (int(margin_before) * 60))
 			if event_matches and len(event_matches) > 0:
 				for event_entry in event_matches:
-					print "[SerienRecorder] found eventID: %s" % int(event_entry[1])
+					print("[SerienRecorder] found eventID: %s" % int(event_entry[1]))
 					eit = int(event_entry[1])
 					start_unixtime_eit = int(event_entry[3])
 					end_unixtime_eit = int(event_entry[3]) + int(event_entry[4])
@@ -476,7 +477,7 @@ class STBHelpers:
 		from SerienRecorderLogWriter import SRLogger
 
 		if not fileExists(dirname) and not cover_only:
-			print "[SerienRecorder] Erstelle Verzeichnis: %s" % dirname
+			print("[SerienRecorder] Erstelle Verzeichnis: %s" % dirname)
 			SRLogger.writeLog("Erstelle Verzeichnis: ' %s '" % dirname)
 			try:
 				os.makedirs(dirname)
