@@ -218,6 +218,9 @@ class serienRecTimerListScreen(serienRecBaseScreen, Screen, HelpableScreen):
 		imageTimer = imageNone
 
 		channelName = webChannel
+		if stbRef:
+			channelName = STBHelpers.getChannelByRef(self.channelList, stbRef)
+		
 		if activeTimer:
 			SerieColor = None
 		else:
@@ -230,8 +233,6 @@ class serienRecTimerListScreen(serienRecBaseScreen, Screen, HelpableScreen):
 		if not completed:
 			imageTimer = "%simages/timer.png" % SerienRecorder.serienRecMainPath
 			if stbRef and config.plugins.serienRec.showPicons.value != "0":
-				channelName = STBHelpers.getChannelByRef(self.channelList, stbRef)
-
 				# Get picon by reference or by name
 				piconPath = self.piconLoader.getPicon(stbRef)
 				if piconPath:
